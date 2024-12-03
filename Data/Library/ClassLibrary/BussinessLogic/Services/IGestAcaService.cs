@@ -16,7 +16,9 @@ namespace GestAca.Services
         // Necesario para la inicialización de la BD
         void DBInitialization();
         void AddTeacher(Teacher teacher);
-		void AddClassroom(Classroom classroom);
+        void AddStudent(Student student);
+
+        void AddClassroom(Classroom classroom);
         void AddCourse(Course course);
         void AddTaughtCourse(TaughtCourse tcourse);
 
@@ -25,12 +27,24 @@ namespace GestAca.Services
         // A partir de aquí los necesarios para los CU solicitados
         //
 
-        void AssingTeacherToCourse();
-        void AssingClassroomToCourse();
-        void AddStudentToCourse();
-        void ShowStudentsEnrolledInACourse();
-        string Input();
-        bool Confirmacion(string s);
+        List<TaughtCourse> GetTaughtCourses();
 
+        List<Teacher> GetTeachers();
+
+        List<Classroom> GetClassrooms();
+        List<Student> GetStudents();
+        List<TaughtCourse> GetTaughtCoursesNotStarted();
+        List<Teacher> GetAvailableTeachers(TaughtCourse taughtCourse);
+        List<Classroom> GetAvailableClassrooms(TaughtCourse taughtCourse);
+
+        void AssingTeacherToCourse(Teacher teacher, TaughtCourse taughtCourse);
+        void AssingClassroomToCourse(TaughtCourse taughtCourse, Classroom classroom);
+        void AddStudentToCourse(TaughtCourse taughtCourseChosen, Student student);
+        List<Student> GetStudentsEnrolledInACourse(TaughtCourse taughtCourse);
+        List<Student> GetStudentsNotEnrolledInACourse(TaughtCourse taughtCourse);
+        TaughtCourse GetTaughtCourseFromName(string name);
+        Student GetStudentFromName(string name);
+        Teacher GetTeacherFromName(string name);
+        Classroom GetClassroomFromName(string name);
     }
 }

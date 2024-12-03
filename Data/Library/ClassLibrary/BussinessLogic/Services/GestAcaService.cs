@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 using GestAca.Entities;
 using GestAca.Persistence;
-
 
 namespace GestAca.Services
 {
@@ -42,8 +38,13 @@ namespace GestAca.Services
 
             // Dar de alta unos profesores para poder usarlos luego
             AddTeacher(new Teacher("C/San Cristobal 10", "11111111A", "Prof1", 46022, "SSN11111111A"));
-            AddTeacher(new Teacher("Av. La Informatica 20", "22222222B", "Prof2", 46022, "SSN22222222B"));
-            AddTeacher(new Teacher("C/Sulfurosa 30", "33333333C", "Prof3", 46022, "SSN33333333B"));
+            AddTeacher(new Teacher("Av. La Informatica 20", "22222222B", "Prof2", 46023, "SSN22222222B"));
+            AddTeacher(new Teacher("C/Sulfurosa 30", "33333333C", "Prof3", 46024, "SSN33333333B"));
+
+            // Dar de alta unos estudiantes para poder usarlos luego
+            AddStudent(new Student("C/Roma 10", "44444444D", "Estudiante1", 46011, "ES91 1111 2222 3333 4444 5555 66"));
+            AddStudent(new Student("C/Milano 20", "55555555E", "Estudiante2", 46012, "ES91 2222 3333 4444 5555 6666 77"));
+            AddStudent(new Student("C/Firenze 30", "66666666F", "Estudiante3", 46013, "ES91 3333 4444 5555 6666 7777 88"));
 
             // Dar de alta unas aulas para poder usarlas luego
             AddClassroom(new Classroom(2, "1P"));
@@ -85,6 +86,23 @@ namespace GestAca.Services
             }
             else
                 throw new ServiceException("There is another person with Id " + teacher.Id);
+        }
+
+        /// <summary>
+        /// Persiste un estudiante
+        /// </summary>
+        /// <param name="student"></param>
+        /// <exception cref="ServiceException"></exception>
+        public void AddStudent(Student student)
+        {
+            // Restricción: No puede haber dos personas con el mismo Id (dni)
+            if (dal.GetById<Student>(student.Id) == null)
+            {
+                dal.Insert<Student>(student);
+                dal.Commit();
+            }
+            else
+                throw new ServiceException("There is another person with Id " + student.Id);
         }
 
         /// <summary>
@@ -146,33 +164,23 @@ namespace GestAca.Services
 
         //TODO: Aquí se comprimirá código
 
-        private List<TaughtCourse> GetTaughtCourses() {
+        public List<TaughtCourse> GetTaughtCourses() {
             return dal.GetAll<TaughtCourse>().ToList<TaughtCourse>();
         }
 
-        private List<Teacher> GetTeachers() {
+        public List<Teacher> GetTeachers() {
             return dal.GetAll<Teacher>().ToList<Teacher>();
         }
-        private List<Classroom> GetClassrooms()
+        public List<Classroom> GetClassrooms()
         {
             return dal.GetAll<Classroom>().ToList<Classroom>();
         }
-        private List<Student> GetStudents()
+        public List<Student> GetStudents()
         {
             return dal.GetAll<Student>().ToList<Student>();
         }
-
-        public string Input()
-        {
-            throw new NotImplementedException("Falta la función de Input y selecciona 1");
-        }
-
-        public bool Confirmacion(string s)
-        {
-            throw new NotImplementedException("Método para pedir confirmación");
-        }
-
-        private List<Teacher> GetAvailableTeachers(TaughtCourse taughtCourse)
+        
+        public List<Teacher> GetAvailableTeachers(TaughtCourse taughtCourse)
         {
             List<Teacher> teachersAvailable = new List<Teacher>();
             foreach (var teacher in GetTeachers())
@@ -187,7 +195,7 @@ namespace GestAca.Services
         }
 
 
-        private List<Classroom> GetAvailableClassrooms(TaughtCourse taughtCourse)
+        public List<Classroom> GetAvailableClassrooms(TaughtCourse taughtCourse)
         {
             List<Classroom> classroomsAvailables = new List<Classroom>();
             foreach (var classroom in GetClassrooms())
@@ -201,12 +209,12 @@ namespace GestAca.Services
             return classroomsAvailables;
         }
 
-        private List<TaughtCourse> GetTaughtCoursesNotStarted()
+        public List<TaughtCourse> GetTaughtCoursesNotStarted()
         {
             List<TaughtCourse> taughtCoursesAfterToday = new List<TaughtCourse>();
             foreach (var taughtCourse in GetTaughtCourses())
             {
-                if (taughtCourse.StartDateTime.Date > DateTime.Now.Date)
+                if (taughtCourse.StartDateTime > DateTime.Now)
                 {
                     taughtCoursesAfterToday.Add(taughtCourse);
                 }
@@ -215,97 +223,106 @@ namespace GestAca.Services
             return taughtCoursesAfterToday;
         }
 
-        public void AssingTeacherToCourse()
+        public void AssingTeacherToCourse(Teacher teacher, TaughtCourse taughtCourse)
         {
-            List<TaughtCourse> taughtCourses = GetTaughtCourses();
-            //PrintTaughtCourses(taughtCourses);
-
-            TaughtCourse taughtCourse = taughtCourses.Single(s => s.Course.Name == Input());
-            //PrintTaughtCourse(taughtCourse);
-
-            if (taughtCourse.Teachers.Count > 0)
-            {
-                // el curso ya tiene un profesor asignado
-                return;
-            }
-
-            List<Teacher> teachers = GetAvailableTeachers(taughtCourse);
-            //PrintTeachers(teachers);
-
-            Teacher teacher = teachers.Single(s => s.Id == Input());
-            //PrintTeacher(teacher);
-
-            if (Confirmacion("¿Estás seguro de los cambios?"))
-            {
-                taughtCourse.AddTeacher(teacher);
-                Commit();
-            }
+            taughtCourse.AddTeacher(teacher);
+            Commit();
         }
 
-        public void AssingClassroomToCourse()
+        public void AssingClassroomToCourse(TaughtCourse taughtCourse, Classroom classroom)
         {
-            List<TaughtCourse> taughtCourses = GetTaughtCourses();
-            //PrintTaughtCourses(taughtCourses);
-
-            TaughtCourse taughtCourse = taughtCourses.Single(s => s.Course.Name == Input());
-            //PrintTaughtCourse(taughtCourse);
-
-            if (taughtCourse.Classroom != null)
-            {
-                //este curso ya tiene una aula asignata
-                //Print(está ocupado por x)
-            }
-
-            List<Classroom> classroomsAvailables = GetAvailableClassrooms(taughtCourse);
-            //PrintClassrooms(classroomsAvaiables);
-
-            Classroom classroom = classroomsAvailables.Single(s => s.Name == Input());
-            //PrintClassroom(classroom);
-
-            if (Confirmacion("¿Estás seguro de los cambios?"))
-            {
-                taughtCourse.SetClassroom(classroom);
-                Commit();
-            }
+            taughtCourse.SetClassroom(classroom);
+            Commit();
         }
 
-        public void AddStudentToCourse()
+        public void AddStudentToCourse(TaughtCourse taughtCourseChosen, Student student)
         {
-            List<TaughtCourse> taughtCourses = GetTaughtCoursesNotStarted();
-            //PrintTaughtCourses(taughtCoursesAfterToday);
-
-            TaughtCourse taughtCourseChosen = taughtCourses.Single(s => s.Course.Name == Input());
-            //PrintTaughtCourse(taughtCourseChosen);
-
-            List<Student> students = GetStudents();
-            Student student = students.Single(s => s.Name == Input());
-            //PrintStudent(student);
-
-            if (Confirmacion("¿Estás seguro de los cambios?"))
-            {
-                Enrollment enrollment = new Enrollment(DateTime.Now, false, student, taughtCourseChosen);
-                dal.Insert(enrollment);
-                Commit();
-            }
+            Enrollment enrollment = new Enrollment(DateTime.Now, false, student, taughtCourseChosen);
+            student.AddEnrollment(enrollment);
+            Commit();
         }
 
-        public void ShowStudentsEnrolledInACourse()
+        public List<Student> GetStudentsEnrolledInACourse(TaughtCourse taughtCourse)
         {
-            List<TaughtCourse> taughtCourses = GetTaughtCourses();
-            //PrintTaughtCourses(taughtCourses);
-
-            TaughtCourse taughtCourse = taughtCourses.Single(s => s.Course.Name == Input());
-            //PrintTaughtCourse(taughtCourse);
-
+            List<Student> students = new List<Student>();
             foreach (var student in GetStudents())
             {
                 foreach (var enrollment in student.Enrollments)
                 {
                     if (enrollment.TaughtCourse == taughtCourse)
                     {
-                        //PrintTaughtCourse
+                        students.Add(student);
                     }
                 }
+            }
+            return students;
+        }
+
+        public List<Student> GetStudentsNotEnrolledInACourse(TaughtCourse taughtCourse)
+        {
+            List<Student> students = GetStudents();
+            foreach (var student in GetStudents())
+            {
+                foreach (var studentAlreadyEnrolled in GetStudentsEnrolledInACourse(taughtCourse))
+                {
+                    if (student == studentAlreadyEnrolled)
+                    {
+                        students.Remove(student);
+                    }
+                }
+            }
+            return students;
+        }
+
+        public TaughtCourse GetTaughtCourseFromName(string name)
+        {
+            List<TaughtCourse> taughtCourses = GetTaughtCourses();
+            if(taughtCourses.Count > 0)
+            {
+                return taughtCourses.Single(s => s.Course.Name == name);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Student GetStudentFromName(string name)
+        {
+            List<Student> students = GetStudents();
+            if (students.Count > 0)
+            {
+                return students.Single(s => s.Name == name);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Teacher GetTeacherFromName(string name)
+        {
+            List<Teacher> teachers = GetTeachers();
+            if (teachers.Count > 0)
+            {
+                return teachers.Single(s => s.Name == name);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Classroom GetClassroomFromName(string name)
+        {
+            List<Classroom> classrooms = GetClassrooms();
+            if (classrooms.Count > 0)
+            {
+                return classrooms.Single(s => s.Name == name);
+            }
+            else
+            {
+                return null;
             }
         }
     } 

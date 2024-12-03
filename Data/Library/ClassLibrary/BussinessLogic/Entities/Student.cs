@@ -21,5 +21,10 @@ namespace GestAca.Entities
 
             Enrollments = new List<Enrollment>();
         }
+
+        public void AddEnrollment(Enrollment enrollment)
+        {
+            this.Enrollments.Add(enrollment);
+        }
     }
 }
