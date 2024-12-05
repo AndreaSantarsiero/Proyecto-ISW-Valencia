@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestAca.Entities
 {
-    public partial class Student
+    public partial class Student : IGestAcaEntity
     {
         //constructor sin paràmetros
         public Student() 

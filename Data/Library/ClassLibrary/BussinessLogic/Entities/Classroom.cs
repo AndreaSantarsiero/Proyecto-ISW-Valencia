@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestAca.Entities
 {
-    public partial class Classroom
+    public partial class Classroom : IGestAcaEntity
     {
         public Classroom()
         {
@@ -48,6 +48,15 @@ namespace GestAca.Entities
 
             //if we don't find overlaps with any of the taughtCourses that are already assigned to that class, then the class is available
             return true;
+        }
+        public string GetName()
+        {
+            return this.Name;
+        }
+
+        public override string ToString() {
+            return "Nombre: " + this.Name +
+                   "\r\nCapacidad: " + this.MaxCapacity;
         }
     }
 }

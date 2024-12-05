@@ -20,45 +20,11 @@ namespace GestAca.GUI
             MessageBox.Show(contenido, titulo, MessageBoxButtons.OK, MessageBoxIcon.Question);
         }
 
-        public static List<string> TaughtCoursesToStringList(List<TaughtCourse> taughtCourses)
+        public static List<string> ElementToNameList(List<IGestAcaEntity> elements, string inicio)
         {
-            List<string> taughtCoursesList = new List<string>();
-            taughtCoursesList.Add(" - selecciona un curso a impartir - ");
-            foreach (var taughtCourse in taughtCourses)
-            {
-                taughtCoursesList.Add(taughtCourse.Course.Name);
-            }
-            return taughtCoursesList;
-        }
-
-        public static List<string> StudentsToStringList(List<Student> students)
-        {
-            List<string> studentsList = new List<string>();
-            foreach (var student in students)
-            {
-                studentsList.Add(student.Name);
-            }
-            return studentsList;
-        }
-
-        public static List<string> ClassroomsToStringList(List<Classroom> classrooms)
-        {
-            List<string> classroomsList = new List<string>();
-            foreach (var classroom in classrooms)
-            {
-                classroomsList.Add(classroom.Name);
-            }
-            return classroomsList;
-        }
-
-        public static List<string> TeachersToStringList(List<Teacher> teachers)
-        {
-            List<string> teachersList = new List<string>();
-            foreach (var teacher in teachers)
-            {
-                teachersList.Add(teacher.Name);
-            }
-            return teachersList;
+            List<string> cadenas = new List<string>{inicio};
+            foreach (var e in elements){ cadenas.Add(e.GetName()); }
+            return cadenas;
         }
 
         public static void ShowThroughtComboBox(System.Windows.Forms.ComboBox comboBox, List<string> parameters,
@@ -111,7 +77,7 @@ namespace GestAca.GUI
                 }
                 foreach (var teacher in taughtCourse.Teachers)
                 {
-                    output += teacher.Name + ", ";
+                    output += teacher.GetName() + ", ";
                 }
                 output = output.Substring(0, output.Length - 2);
                 return output;
@@ -127,7 +93,7 @@ namespace GestAca.GUI
         {
             if(taughtCourse.Classroom != null)
             {
-                return taughtCourse.Classroom.Name;
+                return taughtCourse.Classroom.GetName();
             }
             else
             {
@@ -137,35 +103,9 @@ namespace GestAca.GUI
 
         public static string PrintTaughtCourseInfo(TaughtCourse taughtCourse)
         {
-            return "nome curso: " + taughtCourse.Course.Name +
+            return taughtCourse.ToString() +
                    "\r\n" + PrintTeachersName(taughtCourse) +
-                   "\r\naula asignada: " + PrintClassroomName(taughtCourse) +
-                   "\r\nfecha de inicio: " + taughtCourse.StartDateTime.Date.ToString("dd/MM/yyyy") +
-                   "\r\nfecha de finalización: " + taughtCourse.EndDate.ToString("dd/MM/yyyy") +
-                   "\r\nhora de comienzo: " + taughtCourse.StartDateTime.TimeOfDay.ToString(@"hh\:mm") +
-                   "\r\nhora de finalización: " + taughtCourse.StartDateTime.AddMinutes(taughtCourse.SessionDuration).TimeOfDay.ToString(@"hh\:mm");
-        }
-        
-        public static string PrintStudentInfo(Student student)
-        {
-            return "nome: " + student.Name +
-                   "\r\ndni: " + student.Id +
-                   "\r\ndirección: " + student.Address +
-                   "\r\ncodigo postal: " + student.ZipCode;
-        }
-
-        public static string PrintTeacherInfo(Teacher teacher)
-        {
-            return "nome: " + teacher.Name +
-                   "\r\ndni: " + teacher.Id +
-                   "\r\ndirección: " + teacher.Address +
-                   "\r\ncodigo postal: " + teacher.ZipCode;
-        }
-
-        public static string PrintClassroomInfo(Classroom classroom)
-        {
-            return "nome: " + classroom.Name +
-                   "\r\ncapacidad: " + classroom.MaxCapacity;
+                   "\r\nAula asignada: " + PrintClassroomName(taughtCourse);
         }
     }
 }

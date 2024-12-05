@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestAca.Entities
 {
-    public partial class TaughtCourse
+    public partial class TaughtCourse : IGestAcaEntity
     {
         public TaughtCourse()
         {
@@ -36,6 +36,20 @@ namespace GestAca.Entities
         public void AddTeacher(Teacher t)
         {
             this.Teachers.Add(t);
+        }
+
+        public string GetName() 
+        { 
+            return this.Course.GetName(); 
+        }
+
+        public override string ToString()
+        {
+            return "Nombre curso: " + this.Course.Name +
+                   "\r\nFecha de inicio: " + this.StartDateTime.Date.ToString("dd/MM/yyyy") +
+                   "\r\nFecha de finalización: " + this.EndDate.ToString("dd/MM/yyyy") +
+                   "\r\nHora de comienzo: " + this.StartDateTime.TimeOfDay.ToString(@"hh\:mm") +
+                   "\r\nHora de finalización: " + this.StartDateTime.AddMinutes(this.SessionDuration).TimeOfDay.ToString(@"hh\:mm");
         }
     }
 }

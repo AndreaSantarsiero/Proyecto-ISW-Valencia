@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GestAca.Entities
 {
-    public partial class Enrollment
+    public partial class Enrollment: IGestAcaEntity
     {
         public Enrollment()
         {
@@ -17,6 +17,10 @@ namespace GestAca.Entities
             Student = student;
             TaughtCourse = taughtCourse;
             Absences = new List<Absence>();
+        }
+        public string GetName()
+        {
+            return string.Empty;
         }
     }
 }

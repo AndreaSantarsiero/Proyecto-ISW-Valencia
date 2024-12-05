@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="BussinessLogic\Entities\Classroom.cs" />
     <Compile Include="BussinessLogic\Entities\Course.cs" />
+    <Compile Include="Persistence\Entities\IGestAcaEntity.cs" />
     <Compile Include="BussinessLogic\Entities\Person.cs" />
     <Compile Include="BussinessLogic\Entities\Teacher.cs" />
     <Compile Include="BussinessLogic\Entities\Student.cs" />

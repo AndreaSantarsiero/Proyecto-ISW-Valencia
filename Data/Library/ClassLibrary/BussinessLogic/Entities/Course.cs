@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestAca.Entities
 {
-    public partial class Course
+    public partial class Course: IGestAcaEntity
     {
         public Course()
         {
@@ -19,6 +19,11 @@ namespace GestAca.Entities
             Name = name;
 
             TaughtCourses = new List<TaughtCourse>();
+        }
+
+        public string GetName()
+        {
+            return this.Name;
         }
     }
 }
