@@ -10,6 +10,9 @@ namespace GestAca.GUI
 {
     internal class Utils
     {
+        public static string TabZero = "----";
+
+
         public static bool Confirmacion(string contenido, string titulo)
         {
             return MessageBox.Show(contenido, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
@@ -18,6 +21,17 @@ namespace GestAca.GUI
         public static void Message(string contenido, string titulo)
         {
             MessageBox.Show(contenido, titulo, MessageBoxButtons.OK, MessageBoxIcon.Question);
+        }
+
+        public static bool CorrectSelections(params System.Windows.Forms.ComboBox[] comboBoxes)
+        {
+            foreach (System.Windows.Forms.ComboBox comboBox in comboBoxes) { 
+                if(comboBox.SelectedItem == null || comboBox.SelectedItem.ToString() == TabZero)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public static List<string> ElementToNameList(List<IGestAcaEntity> elements, string inicio)

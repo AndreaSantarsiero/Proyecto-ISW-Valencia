@@ -17,7 +17,6 @@ namespace GestAca.GUI
         private IGestAcaService _service;
         private string _eSelectedFunction;
         private string _aSelectedFunction;
-        private string TabZero = "----";
 
 
         public Principal()
@@ -43,7 +42,7 @@ namespace GestAca.GUI
         {
             ResetAdminGUI();
             _aSelectedFunction = "AsignarAulaACurso";
-            Utils.ShowThroughtComboBox(comboBoxA1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), TabZero),
+            Utils.ShowThroughtComboBox(comboBoxA1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelA1, "Asignar aula a un curso a impartir");
         }
 
@@ -51,7 +50,7 @@ namespace GestAca.GUI
         {
             ResetAdminGUI();
             _aSelectedFunction = "AsignarProfesorACurso";
-            Utils.ShowThroughtComboBox(comboBoxA1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), TabZero),
+            Utils.ShowThroughtComboBox(comboBoxA1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelA1, "Asignar profesor a un curso a impartir");
         }
 
@@ -60,7 +59,7 @@ namespace GestAca.GUI
             ResetEGUIShowStudentEnrolledToCourse();
             ResetEGUIAddStudentToCourse();
             _eSelectedFunction = "InscribirAlumnoEnCurso";
-            Utils.ShowThroughtComboBox(comboBoxE1, Utils.ElementToNameList(_service.GetTaughtCoursesNotStarted().Cast<IGestAcaEntity>().ToList(), TabZero),
+            Utils.ShowThroughtComboBox(comboBoxE1, Utils.ElementToNameList(_service.GetTaughtCoursesNotStarted().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelE1, "Inscribir alumno en un curso a impartir");
         }
 
@@ -69,17 +68,14 @@ namespace GestAca.GUI
             ResetEGUIAddStudentToCourse();
             ResetEGUIShowStudentEnrolledToCourse();
             _eSelectedFunction = "MostrarAlumnosDeUnCurso";
-            Utils.ShowThroughtComboBox(comboBoxE1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), TabZero),
+            Utils.ShowThroughtComboBox(comboBoxE1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelE1, "Mostrar alumnos de un curso a impartir");
         }
 
 
         private void comboBoxE1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool correctSelections = comboBoxE1.SelectedItem != null &&
-                                     comboBoxE1.SelectedItem.ToString() != TabZero;
-
-            if (correctSelections)
+            if (Utils.CorrectSelections(comboBoxE1))
             {
                 if (_eSelectedFunction == "MostrarAlumnosDeUnCurso")
                 {
@@ -97,30 +93,30 @@ namespace GestAca.GUI
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxE1.SelectedItem.ToString());
                     Utils.ShowThroughtTextBox(textBoxE1, Utils.PrintTaughtCourseInfo(taughtCourseChosen),
                                               labelE2, "Informaciones sobre el curso a impartir seleccionado");
-                    Utils.ShowThroughtComboBox(comboBoxE2, Utils.ElementToNameList(_service.GetStudentsNotEnrolledInACourse(taughtCourseChosen).Cast<IGestAcaEntity>().ToList(), TabZero),
+                    Utils.ShowThroughtComboBox(comboBoxE2, Utils.ElementToNameList(_service.GetStudentsNotEnrolledInACourse(taughtCourseChosen).Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                                labelE3, "Selecciona estudiante que quieres incribir");
 
-                    buttonE1.Enabled = true;
+                    buttonE1.Enabled = false;
                     buttonE1.Visible = true;
                 }
             }
 
             else
             {
-                TextBoxE3NotVisible();
-                ComboBoxE1InfoNotVisible();
-                ComboBoxE1ToDefaultResetGUI();
+                if (_eSelectedFunction == "MostrarAlumnosDeUnCurso")
+                {
+                    ResetEGUIShowStudentEnrolledToCourse();
+                }
+                else if (_eSelectedFunction == "InscribirAlumnoEnCurso")
+                {
+                    ResetEGUIAddStudentToCourse();
+                }
             }
         }
 
         private void buttonE1_Click(object sender, EventArgs e)
         {
-            bool correctSelections = comboBoxE1.SelectedItem != null &&
-                                     comboBoxE1.SelectedItem.ToString() != TabZero &&
-                                     comboBoxE2.SelectedItem != null &&
-                                     comboBoxE2.SelectedItem.ToString() != TabZero;
-
-            if (correctSelections)
+            if (Utils.CorrectSelections(comboBoxE1, comboBoxE2))
             {
                 if (_eSelectedFunction == "InscribirAlumnoEnCurso")
                 {
@@ -140,13 +136,10 @@ namespace GestAca.GUI
 
         private void comboBoxE2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool correctSelections = comboBoxE1.SelectedItem != null &&
-                                     comboBoxE1.SelectedItem.ToString() != TabZero &&
-                                     comboBoxE2.SelectedItem != null &&
-                                     comboBoxE2.SelectedItem.ToString() != TabZero;
-
-            if (correctSelections)
+            if (Utils.CorrectSelections(comboBoxE1, comboBoxE2))
             {
+                buttonE1.Enabled = true;
+
                 if (_eSelectedFunction == "InscribirAlumnoEnCurso")
                 {
                     Student studentChosen = _service.GetStudentFromName(comboBoxE2.SelectedItem.ToString());
@@ -163,10 +156,7 @@ namespace GestAca.GUI
 
         private void comboBoxA1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool correctSelections = comboBoxA1.SelectedItem != null &&
-                                     comboBoxA1.SelectedItem.ToString() != TabZero;
-
-            if (correctSelections)
+            if (Utils.CorrectSelections(comboBoxA1))
             {
                 ComboBoxA2InfoNotVisible();
                 buttonA1.Enabled = false;
@@ -181,7 +171,7 @@ namespace GestAca.GUI
                     }
                     Utils.ShowThroughtTextBox(textBoxA1, Utils.PrintTaughtCourseInfo(taughtCourseChosen),
                                               labelA2, "Informaciones sobre el curso a impartir seleccionado");
-                    Utils.ShowThroughtComboBox(comboBoxA2, Utils.ElementToNameList(_service.GetAvailableClassrooms(taughtCourseChosen).Cast<IGestAcaEntity>().ToList(), TabZero),
+                    Utils.ShowThroughtComboBox(comboBoxA2, Utils.ElementToNameList(_service.GetAvailableClassrooms(taughtCourseChosen).Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                                labelA3, "Selecciona aula que quieres asignar:");
                 }
 
@@ -190,7 +180,7 @@ namespace GestAca.GUI
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxA1.SelectedItem.ToString());
                     Utils.ShowThroughtTextBox(textBoxA1, Utils.PrintTaughtCourseInfo(taughtCourseChosen),
                                               labelA2, "Informaciones sobre el curso a impartir seleccionado");
-                    Utils.ShowThroughtComboBox(comboBoxA2, Utils.ElementToNameList(_service.GetAvailableTeachers(taughtCourseChosen).Cast<IGestAcaEntity>().ToList(), TabZero),
+                    Utils.ShowThroughtComboBox(comboBoxA2, Utils.ElementToNameList(_service.GetAvailableTeachers(taughtCourseChosen).Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                                labelA3, "Selecciona profesor que quieres asignar:");
                 }
             }
@@ -203,12 +193,7 @@ namespace GestAca.GUI
 
         private void buttonA1_Click(object sender, EventArgs e)
         {
-            bool correctSelections = comboBoxA1.SelectedItem != null &&
-                                     comboBoxA1.SelectedItem.ToString() != TabZero &&
-                                     comboBoxA2.SelectedItem != null &&
-                                     comboBoxA2.SelectedItem.ToString() != TabZero;
-
-            if (correctSelections)
+            if (Utils.CorrectSelections(comboBoxA1, comboBoxA2))
             {
                 if (_aSelectedFunction == "AsignarAulaACurso")
                 {
@@ -240,12 +225,8 @@ namespace GestAca.GUI
 
         private void comboBoxA2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool correctSelections = comboBoxA1.SelectedItem != null &&
-                                     comboBoxA1.SelectedItem.ToString() != TabZero &&
-                                     comboBoxA2.SelectedItem != null &&
-                                     comboBoxA2.SelectedItem.ToString() != TabZero;
-
-            if (correctSelections) {
+            if (Utils.CorrectSelections(comboBoxA1, comboBoxA2))
+            {
                 buttonA1.Enabled = true;
 
                 if (_aSelectedFunction == "AsignarAulaACurso")
