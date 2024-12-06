@@ -26,5 +26,17 @@ namespace GestAca.Entities
         {
             this.Enrollments.Add(enrollment);
         }
+
+        public bool IsAlreadyEnrolledToTaughtCourse(TaughtCourse taughtCourse)
+        {
+            foreach (var enrollment in this.Enrollments)
+            {
+                if(enrollment.TaughtCourse == taughtCourse)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

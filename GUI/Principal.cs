@@ -33,6 +33,7 @@ namespace GestAca.GUI
             {
                 _service.DBInitialization();
                 ResetGUI();
+                botonResetDB.Enabled = false;
                 _DBChanged = false;
             }
         }
@@ -56,8 +57,7 @@ namespace GestAca.GUI
 
         private void botonInscribirAlumnoEnCurso_Click(object sender, EventArgs e)
         {
-            ResetEGUIShowStudentEnrolledToCourse();
-            ResetEGUIAddStudentToCourse();
+            ResetEmpleadoGUI();
             _eSelectedFunction = "InscribirAlumnoEnCurso";
             Utils.ShowThroughtComboBox(comboBoxE1, Utils.ElementToNameList(_service.GetTaughtCoursesNotStarted().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelE1, "Inscribir alumno en un curso a impartir");
@@ -65,8 +65,7 @@ namespace GestAca.GUI
 
         private void botonMostrarAlumnosDeUnCurso_Click(object sender, EventArgs e)
         {
-            ResetEGUIAddStudentToCourse();
-            ResetEGUIShowStudentEnrolledToCourse();
+            ResetEmpleadoGUI();
             _eSelectedFunction = "MostrarAlumnosDeUnCurso";
             Utils.ShowThroughtComboBox(comboBoxE1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelE1, "Mostrar alumnos de un curso a impartir");
@@ -83,19 +82,21 @@ namespace GestAca.GUI
                     List<Student> studentsEnrolled = _service.GetStudentsEnrolledInACourse(taughtCourseChosen);
                     Utils.ShowThroughtTextBox(textBoxE1, Utils.PrintTaughtCourseInfo(taughtCourseChosen),
                                               labelE2, "Informaciones sobre el curso a impartir seleccionado");
-                    Utils.ShowThroughtTextBox(textBoxE3, Utils.PrintStudents(studentsEnrolled),
-                                              labelE3, "Enstudiantes del curso:" + comboBoxE1.SelectedItem.ToString() + ":");
+                    Utils.ShowThroughtdataGridView(dataGridViewE1, studentsEnrolled, taughtCourseChosen,
+                                              labelE3, "Enstudiantes del curso " + comboBoxE1.SelectedItem.ToString() + ":");
                 }
 
                 else if (_eSelectedFunction == "InscribirAlumnoEnCurso")
                 {
-                    ComboBoxE2InfoNotVisible();
+                    TextBoxE3InfoNotVisible();
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxE1.SelectedItem.ToString());
                     Utils.ShowThroughtTextBox(textBoxE1, Utils.PrintTaughtCourseInfo(taughtCourseChosen),
                                               labelE2, "Informaciones sobre el curso a impartir seleccionado");
-                    Utils.ShowThroughtComboBox(comboBoxE2, Utils.ElementToNameList(_service.GetStudentsNotEnrolledInACourse(taughtCourseChosen).Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
-                                               labelE3, "Selecciona estudiante que quieres incribir");
 
+                    labelE3.Text = "dni estudiante que quieres inscribir:";
+                    labelE3.Visible = true;
+                    textBoxE3.Visible = true;
+                    buttonE2.Visible = true;
                     buttonE1.Enabled = false;
                     buttonE1.Visible = true;
                 }
@@ -103,54 +104,60 @@ namespace GestAca.GUI
 
             else
             {
-                if (_eSelectedFunction == "MostrarAlumnosDeUnCurso")
+                ResetEmpleadoGUI();
+            }
+        }
+
+
+
+        private void buttonE2_Click(object sender, EventArgs e)
+        {
+            if (Utils.CorrectSelections(comboBoxE1))
+            {
+                try
                 {
-                    ResetEGUIShowStudentEnrolledToCourse();
+                    Student student = _service.GetStudentFromDni(textBoxE3.Text);
+                    Utils.ShowThroughtTextBox(textBoxE2, student.ToString(),
+                                              labelE4, "Informaciones sobre el estudiante seleccionado");
+                    buttonE1.Enabled = true;
                 }
-                else if (_eSelectedFunction == "InscribirAlumnoEnCurso")
+                catch (Exception dniNoEncontradoEnElDB)
                 {
-                    ResetEGUIAddStudentToCourse();
+                    buttonE1.Enabled = false;
+                    textBoxE2.Text = "";
+                    Utils.Message("ERRORE: el dni inserito no se encontrò en el database", "dni estudiante non valido");
                 }
+            }
+            else
+            {
+                Utils.Message("ERRORE: selecciona un curso valido", "scelta curso non valida");
             }
         }
 
         private void buttonE1_Click(object sender, EventArgs e)
         {
-            if (Utils.CorrectSelections(comboBoxE1, comboBoxE2))
+            if (Utils.CorrectSelections(comboBoxE1))
             {
                 if (_eSelectedFunction == "InscribirAlumnoEnCurso")
                 {
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxE1.SelectedItem.ToString());
-                    Student studentChosen = _service.GetStudentFromName(comboBoxE2.SelectedItem.ToString());
+                    Student studentChosen = _service.GetStudentFromDni(textBoxE3.Text);
 
-                    if (Utils.Confirmacion("¿Quieres realizar los cambios? No es una operación reversible", "Confirmación de cambios"))
+                    if(_service.IsAlreadyEnrolled(studentChosen, taughtCourseChosen) == false)
                     {
-                        _service.AddStudentToCourse(taughtCourseChosen, studentChosen);
-                        _DBChanged = true;
-                        botonResetDB.Enabled = true;
-                        ResetEGUIAddStudentToCourse();
+                        if (Utils.Confirmacion("¿Quieres realizar los cambios? No es una operación reversible", "Confirmación de cambios"))
+                        {
+                            _service.AddStudentToCourse(taughtCourseChosen, studentChosen);
+                            _DBChanged = true;
+                            botonResetDB.Enabled = true;
+                            ResetGUI();
+                        }
+                    }
+                    else
+                    {
+                        Utils.Message("El estudiante ya es inscrito en este curso", "estudiante ya enscrito");
                     }
                 }
-            }
-        }
-
-        private void comboBoxE2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (Utils.CorrectSelections(comboBoxE1, comboBoxE2))
-            {
-                buttonE1.Enabled = true;
-
-                if (_eSelectedFunction == "InscribirAlumnoEnCurso")
-                {
-                    Student studentChosen = _service.GetStudentFromName(comboBoxE2.SelectedItem.ToString());
-                    Utils.ShowThroughtTextBox(textBoxE2, studentChosen.ToString(),
-                                              labelE4, "Informaciones sobre el estudiante seleccionado");
-                }
-            }
-            else
-            {
-                buttonE1.Enabled = false;
-                ComboBoxE2InfoNotVisible();
             }
         }
 
@@ -204,7 +211,7 @@ namespace GestAca.GUI
                         _service.AssingClassroomToCourse(taughtCourseChosen, classroomChosen);
                         _DBChanged = true;
                         botonResetDB.Enabled = true;
-                        ResetAdminGUI();
+                        ResetGUI();
                     }
                 }
                 else if (_aSelectedFunction == "AsignarProfesorACurso")
@@ -217,7 +224,7 @@ namespace GestAca.GUI
                         _service.AssingTeacherToCourse(teacherChosen, taughtCourseChosen);
                         _DBChanged = true;
                         botonResetDB.Enabled = true;
-                        ResetAdminGUI();
+                        ResetGUI();
                     }
                 }
             }

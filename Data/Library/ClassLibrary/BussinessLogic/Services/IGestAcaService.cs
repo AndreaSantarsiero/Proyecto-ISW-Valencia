@@ -43,8 +43,9 @@ namespace GestAca.Services
         List<Student> GetStudentsEnrolledInACourse(TaughtCourse taughtCourse);
         List<Student> GetStudentsNotEnrolledInACourse(TaughtCourse taughtCourse);
         TaughtCourse GetTaughtCourseFromName(string name);
-        Student GetStudentFromName(string name);
+        Student GetStudentFromDni(string dni);
         Teacher GetTeacherFromName(string name);
+        bool IsAlreadyEnrolled(Student student, TaughtCourse taughtCourse);
         Classroom GetClassroomFromName(string name);
     }
 }

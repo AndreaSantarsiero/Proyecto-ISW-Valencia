@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Windows.Forms;
 
 namespace GestAca.GUI
 {
@@ -34,13 +35,16 @@ namespace GestAca.GUI
             this.tabControlUsuario = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panelEmpleado = new System.Windows.Forms.Panel();
+            this.buttonE2 = new System.Windows.Forms.Button();
+            this.dataGridViewE1 = new System.Windows.Forms.DataGridView();
+            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pagamento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBoxE3 = new System.Windows.Forms.TextBox();
             this.labelE4 = new System.Windows.Forms.Label();
             this.textBoxE2 = new System.Windows.Forms.TextBox();
             this.buttonE1 = new System.Windows.Forms.Button();
-            this.comboBoxE2 = new System.Windows.Forms.ComboBox();
             this.labelE2 = new System.Windows.Forms.Label();
             this.textBoxE1 = new System.Windows.Forms.TextBox();
-            this.textBoxE3 = new System.Windows.Forms.TextBox();
             this.labelE3 = new System.Windows.Forms.Label();
             this.comboBoxE1 = new System.Windows.Forms.ComboBox();
             this.labelE1 = new System.Windows.Forms.Label();
@@ -64,6 +68,7 @@ namespace GestAca.GUI
             this.tabControlUsuario.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panelEmpleado.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewE1)).BeginInit();
             this.flowLayoutPanelEmpleado.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panelAdministrador.SuspendLayout();
@@ -116,13 +121,14 @@ namespace GestAca.GUI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelEmpleado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelEmpleado.Controls.Add(this.buttonE2);
+            this.panelEmpleado.Controls.Add(this.dataGridViewE1);
+            this.panelEmpleado.Controls.Add(this.textBoxE3);
             this.panelEmpleado.Controls.Add(this.labelE4);
             this.panelEmpleado.Controls.Add(this.textBoxE2);
             this.panelEmpleado.Controls.Add(this.buttonE1);
-            this.panelEmpleado.Controls.Add(this.comboBoxE2);
             this.panelEmpleado.Controls.Add(this.labelE2);
             this.panelEmpleado.Controls.Add(this.textBoxE1);
-            this.panelEmpleado.Controls.Add(this.textBoxE3);
             this.panelEmpleado.Controls.Add(this.labelE3);
             this.panelEmpleado.Controls.Add(this.comboBoxE1);
             this.panelEmpleado.Controls.Add(this.labelE1);
@@ -131,10 +137,63 @@ namespace GestAca.GUI
             this.panelEmpleado.Size = new System.Drawing.Size(849, 566);
             this.panelEmpleado.TabIndex = 8;
             // 
+            // buttonE2
+            // 
+            this.buttonE2.Location = new System.Drawing.Point(199, 202);
+            this.buttonE2.Name = "buttonE2";
+            this.buttonE2.Size = new System.Drawing.Size(75, 23);
+            this.buttonE2.TabIndex = 19;
+            this.buttonE2.Text = "buscar dni";
+            this.buttonE2.UseVisualStyleBackColor = true;
+            this.buttonE2.Visible = false;
+            this.buttonE2.Click += new System.EventHandler(this.buttonE2_Click);
+            // 
+            // dataGridViewE1
+            // 
+            this.dataGridViewE1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewE1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewE1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.nombre,
+            this.pagamento});
+            this.dataGridViewE1.Location = new System.Drawing.Point(24, 203);
+            this.dataGridViewE1.Name = "dataGridViewE1";
+            this.dataGridViewE1.RowHeadersWidth = 51;
+            this.dataGridViewE1.RowTemplate.Height = 24;
+            this.dataGridViewE1.Size = new System.Drawing.Size(801, 340);
+            this.dataGridViewE1.TabIndex = 18;
+            this.dataGridViewE1.Visible = false;
+            // 
+            // nombre
+            // 
+            this.nombre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.nombre.HeaderText = "nombre";
+            this.nombre.MinimumWidth = 6;
+            this.nombre.Name = "nombre";
+            this.nombre.ReadOnly = true;
+            this.nombre.Width = 82;
+            // 
+            // pagamento
+            // 
+            this.pagamento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.pagamento.HeaderText = "pagamento";
+            this.pagamento.MinimumWidth = 6;
+            this.pagamento.Name = "pagamento";
+            this.pagamento.ReadOnly = true;
+            // 
+            // textBoxE3
+            // 
+            this.textBoxE3.Location = new System.Drawing.Point(24, 203);
+            this.textBoxE3.Name = "textBoxE3";
+            this.textBoxE3.Size = new System.Drawing.Size(142, 22);
+            this.textBoxE3.TabIndex = 17;
+            this.textBoxE3.Visible = false;
+            // 
             // labelE4
             // 
             this.labelE4.AutoSize = true;
-            this.labelE4.Location = new System.Drawing.Point(314, 131);
+            this.labelE4.Location = new System.Drawing.Point(314, 183);
             this.labelE4.Name = "labelE4";
             this.labelE4.Size = new System.Drawing.Size(293, 16);
             this.labelE4.TabIndex = 16;
@@ -146,7 +205,7 @@ namespace GestAca.GUI
             this.textBoxE2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxE2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxE2.Location = new System.Drawing.Point(317, 150);
+            this.textBoxE2.Location = new System.Drawing.Point(317, 203);
             this.textBoxE2.Multiline = true;
             this.textBoxE2.Name = "textBoxE2";
             this.textBoxE2.ReadOnly = true;
@@ -166,16 +225,6 @@ namespace GestAca.GUI
             this.buttonE1.UseVisualStyleBackColor = true;
             this.buttonE1.Visible = false;
             this.buttonE1.Click += new System.EventHandler(this.buttonE1_Click);
-            // 
-            // comboBoxE2
-            // 
-            this.comboBoxE2.FormattingEnabled = true;
-            this.comboBoxE2.Location = new System.Drawing.Point(24, 149);
-            this.comboBoxE2.Name = "comboBoxE2";
-            this.comboBoxE2.Size = new System.Drawing.Size(250, 24);
-            this.comboBoxE2.TabIndex = 13;
-            this.comboBoxE2.Visible = false;
-            this.comboBoxE2.SelectedIndexChanged += new System.EventHandler(this.comboBoxE2_SelectedIndexChanged);
             // 
             // labelE2
             // 
@@ -197,33 +246,18 @@ namespace GestAca.GUI
             this.textBoxE1.Name = "textBoxE1";
             this.textBoxE1.ReadOnly = true;
             this.textBoxE1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxE1.Size = new System.Drawing.Size(509, 86);
+            this.textBoxE1.Size = new System.Drawing.Size(509, 121);
             this.textBoxE1.TabIndex = 11;
             this.textBoxE1.Visible = false;
-            // 
-            // textBoxE3
-            // 
-            this.textBoxE3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxE3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxE3.Location = new System.Drawing.Point(24, 149);
-            this.textBoxE3.Multiline = true;
-            this.textBoxE3.Name = "textBoxE3";
-            this.textBoxE3.ReadOnly = true;
-            this.textBoxE3.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxE3.Size = new System.Drawing.Size(802, 395);
-            this.textBoxE3.TabIndex = 10;
-            this.textBoxE3.Visible = false;
             // 
             // labelE3
             // 
             this.labelE3.AutoSize = true;
-            this.labelE3.Location = new System.Drawing.Point(21, 130);
+            this.labelE3.Location = new System.Drawing.Point(21, 183);
             this.labelE3.Name = "labelE3";
-            this.labelE3.Size = new System.Drawing.Size(157, 16);
+            this.labelE3.Size = new System.Drawing.Size(216, 16);
             this.labelE3.TabIndex = 9;
-            this.labelE3.Text = "Selecciona un estudiante";
+            this.labelE3.Text = "dni estudiante que quieres inscribir:";
             this.labelE3.Visible = false;
             // 
             // comboBoxE1
@@ -319,7 +353,7 @@ namespace GestAca.GUI
             // labelA4
             // 
             this.labelA4.AutoSize = true;
-            this.labelA4.Location = new System.Drawing.Point(314, 184);
+            this.labelA4.Location = new System.Drawing.Point(314, 183);
             this.labelA4.Name = "labelA4";
             this.labelA4.Size = new System.Drawing.Size(293, 16);
             this.labelA4.TabIndex = 16;
@@ -355,7 +389,7 @@ namespace GestAca.GUI
             // comboBoxA2
             // 
             this.comboBoxA2.FormattingEnabled = true;
-            this.comboBoxA2.Location = new System.Drawing.Point(24, 202);
+            this.comboBoxA2.Location = new System.Drawing.Point(24, 203);
             this.comboBoxA2.Name = "comboBoxA2";
             this.comboBoxA2.Size = new System.Drawing.Size(250, 24);
             this.comboBoxA2.TabIndex = 13;
@@ -467,6 +501,7 @@ namespace GestAca.GUI
             this.tabPage1.ResumeLayout(false);
             this.panelEmpleado.ResumeLayout(false);
             this.panelEmpleado.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewE1)).EndInit();
             this.flowLayoutPanelEmpleado.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.panelAdministrador.ResumeLayout(false);
@@ -493,11 +528,9 @@ namespace GestAca.GUI
         private Label labelE3;
         private TextBox textBoxE1;
         private Label labelE2;
-        private ComboBox comboBoxE2;
         private Button buttonE1;
         private Label labelE4;
         private TextBox textBoxE2;
-        private TextBox textBoxE3;
         private Panel panelAdministrador;
         private Label labelA4;
         private TextBox textBoxA2;
@@ -518,23 +551,14 @@ namespace GestAca.GUI
             this.textBoxE1.Visible = false;
         }
 
-        private void TextBoxE3NotVisible()
+        private void dataGridViewE1NotVisible()
         {
             this.labelE3.Visible = false;
             this.labelE3.Text = "";
-            this.textBoxE3.Text = "";
-            this.textBoxE3.Visible = false;
+            this.dataGridViewE1.Visible = false;
         }
 
-        private void ResetEGUIShowStudentEnrolledToCourse()
-        {
-
-            this.comboBoxE1.SelectedIndex = -1;
-            ComboBoxE1InfoNotVisible();
-            TextBoxE3NotVisible();
-        }
-
-        private void ComboBoxE2InfoNotVisible()
+        private void TextBoxE3InfoNotVisible()
         {
             this.labelE4.Visible = false;
             this.textBoxE2.Text = "";
@@ -543,20 +567,22 @@ namespace GestAca.GUI
 
         private void ComboBoxE1ToDefaultResetGUI()
         {
-            this.buttonE1.Enabled = false;
-            this.buttonE1.Visible = false;
-            this.comboBoxE2.Visible = false;
-            this.comboBoxE2.Enabled = false;
+            this.dataGridViewE1.Rows.Clear();
+            this.dataGridViewE1.Visible = false;
             this.labelE3.Text = "";
             this.labelE3.Visible = false;
+            this.textBoxE3.Visible = false;
+            this.textBoxE3.Text = "";
+            this.buttonE2.Visible = false;
+            this.buttonE1.Enabled = false;
+            this.buttonE1.Visible = false;
         }
 
-        private void ResetEGUIAddStudentToCourse()
+        private void ResetEmpleadoGUI()
         {
             this.comboBoxE1.SelectedIndex = -1;
-            this.comboBoxE2.SelectedIndex = -1;
             ComboBoxE1InfoNotVisible();
-            ComboBoxE2InfoNotVisible();
+            TextBoxE3InfoNotVisible();
             ComboBoxE1ToDefaultResetGUI();
         }
 
@@ -596,12 +622,15 @@ namespace GestAca.GUI
 
         private void ResetGUI()
         {
-
-            botonResetDB.Enabled = false;
-            ResetEGUIShowStudentEnrolledToCourse();
-            ResetEGUIAddStudentToCourse();
+            ResetEmpleadoGUI();
             ResetAdminGUI();
         }
+
+        private TextBox textBoxE3;
+        private DataGridView dataGridViewE1;
+        private DataGridViewTextBoxColumn nombre;
+        private DataGridViewTextBoxColumn pagamento;
+        private Button buttonE2;
     }
 }
 

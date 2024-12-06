@@ -225,12 +225,14 @@ namespace GestAca.Services
 
         public void AssingTeacherToCourse(Teacher teacher, TaughtCourse taughtCourse)
         {
+            teacher.TaughtCourses.Add(taughtCourse);
             taughtCourse.AddTeacher(teacher);
             Commit();
         }
 
         public void AssingClassroomToCourse(TaughtCourse taughtCourse, Classroom classroom)
         {
+            classroom.TaughtCourses.Add(taughtCourse);
             taughtCourse.SetClassroom(classroom);
             Commit();
         }
@@ -239,6 +241,7 @@ namespace GestAca.Services
         {
             Enrollment enrollment = new Enrollment(DateTime.Now, false, student, taughtCourseChosen);
             student.AddEnrollment(enrollment);
+            taughtCourseChosen.AddEnrollment(enrollment);
             Commit();
         }
 
@@ -287,12 +290,12 @@ namespace GestAca.Services
             }
         }
 
-        public Student GetStudentFromName(string name)
+        public Student GetStudentFromDni (string dni)
         {
             List<Student> students = GetStudents();
             if (students.Count > 0)
             {
-                return students.Single(s => s.Name == name);
+                return students.Single(s => s.Id == dni);
             }
             else
             {
@@ -311,6 +314,11 @@ namespace GestAca.Services
             {
                 return null;
             }
+        }
+
+        public bool IsAlreadyEnrolled(Student student, TaughtCourse taughtCourse)
+        {
+            return student.IsAlreadyEnrolledToTaughtCourse(taughtCourse);
         }
 
         public Classroom GetClassroomFromName(string name)

@@ -42,7 +42,7 @@ namespace GestAca.GUI
         }
 
         public static void ShowThroughtComboBox(System.Windows.Forms.ComboBox comboBox, List<string> parameters,
-                                            System.Windows.Forms.Label label, string description)
+                                                System.Windows.Forms.Label label, string description)
         {
             label.Text = description;
             label.Visible = true;
@@ -60,20 +60,28 @@ namespace GestAca.GUI
             textBox.Visible = true;
         }
 
-        public static string PrintStudents(List<Student> students)//da eliminare
+        public static void ShowThroughtdataGridView(System.Windows.Forms.DataGridView dataGridView, List<Student> students,
+                                                    TaughtCourse taughtCourse, System.Windows.Forms.Label label, string description)
         {
-            string output = "";
-            if (students.Count > 0) {
-                foreach (var student in students)
+            foreach (var student in students) { 
+                foreach (var enrollment in student.Enrollments)
                 {
-                    output += "nome: " + student.Name + " | dni: " + student.Id +"\r\n";
+                    if(enrollment.TaughtCourse == taughtCourse)
+                    {
+                        if(enrollment.UniquePayment == true)
+                        {
+                            dataGridView.Rows.Add(student.GetName(), "pagamento completo");
+                        }
+                        else
+                        {
+                            dataGridView.Rows.Add(student.GetName(), "pagamento por cuotas mensuales");
+                        }
+                    }
                 }
             }
-            else
-            {
-                output += "there are no students enrolled in this course";
-            }
-            return output;
+            label.Text = description;
+            label.Visible = true;
+            dataGridView.Visible = true;
         }
 
         public static string PrintTeachersName(TaughtCourse taughtCourse)

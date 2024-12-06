@@ -28,14 +28,19 @@ namespace GestAca.Entities
             Teachers = new List<Teacher>();
         }
 
-        public void SetClassroom(Classroom c)
+        public void SetClassroom(Classroom classroom)
         {
-            this.Classroom = c;
+            this.Classroom = classroom;
         }
 
-        public void AddTeacher(Teacher t)
+        public void AddTeacher(Teacher teacher)
         {
-            this.Teachers.Add(t);
+            this.Teachers.Add(teacher);
+        }
+
+        public void AddEnrollment(Enrollment enrollment)
+        {
+            this.Enrollments.Add(enrollment);
         }
 
         public string GetName() 
