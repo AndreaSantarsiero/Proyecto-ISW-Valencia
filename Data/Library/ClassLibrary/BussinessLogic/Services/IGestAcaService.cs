@@ -41,11 +41,10 @@ namespace GestAca.Services
         void AssingClassroomToCourse(TaughtCourse taughtCourse, Classroom classroom);
         void AddStudentToCourse(TaughtCourse taughtCourseChosen, Student student);
         List<Student> GetStudentsEnrolledInACourse(TaughtCourse taughtCourse);
-        List<Student> GetStudentsNotEnrolledInACourse(TaughtCourse taughtCourse);
         TaughtCourse GetTaughtCourseFromName(string name);
         Student GetStudentFromDni(string dni);
         Teacher GetTeacherFromName(string name);
-        bool IsAlreadyEnrolled(Student student, TaughtCourse taughtCourse);
         Classroom GetClassroomFromName(string name);
+        bool IsAlreadyEnrolled(Student student, TaughtCourse taughtCourse);
     }
 }

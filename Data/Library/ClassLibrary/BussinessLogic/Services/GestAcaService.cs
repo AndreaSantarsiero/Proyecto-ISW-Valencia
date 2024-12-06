@@ -261,77 +261,32 @@ namespace GestAca.Services
             return students;
         }
 
-        public List<Student> GetStudentsNotEnrolledInACourse(TaughtCourse taughtCourse)
-        {
-            List<Student> students = GetStudents();
-            foreach (var student in GetStudents())
-            {
-                foreach (var studentAlreadyEnrolled in GetStudentsEnrolledInACourse(taughtCourse))
-                {
-                    if (student == studentAlreadyEnrolled)
-                    {
-                        students.Remove(student);
-                    }
-                }
-            }
-            return students;
-        }
-
         public TaughtCourse GetTaughtCourseFromName(string name)
         {
             List<TaughtCourse> taughtCourses = GetTaughtCourses();
-            if(taughtCourses.Count > 0)
-            {
-                return taughtCourses.Single(s => s.Course.Name == name);
-            }
-            else
-            {
-                return null;
-            }
+            return taughtCourses.Count > 0 ? taughtCourses.Single(s => s.Course.Name == name) : null;
         }
 
         public Student GetStudentFromDni (string dni)
         {
             List<Student> students = GetStudents();
-            if (students.Count > 0)
-            {
-                return students.Single(s => s.Id == dni);
-            }
-            else
-            {
-                return null;
-            }
+            return students.Count > 0 ? students.Single(s => s.Id == dni) : null;
         }
 
         public Teacher GetTeacherFromName(string name)
         {
             List<Teacher> teachers = GetTeachers();
-            if (teachers.Count > 0)
-            {
-                return teachers.Single(s => s.Name == name);
-            }
-            else
-            {
-                return null;
-            }
+            return teachers.Count > 0 ? teachers.Single(s => s.Name == name) : null;
+        }
+        public Classroom GetClassroomFromName(string name)
+        {
+            List<Classroom> classrooms = GetClassrooms();
+            return classrooms.Count > 0 ? classrooms.Single(s => s.Name == name) : null;
         }
 
         public bool IsAlreadyEnrolled(Student student, TaughtCourse taughtCourse)
         {
             return student.IsAlreadyEnrolledToTaughtCourse(taughtCourse);
-        }
-
-        public Classroom GetClassroomFromName(string name)
-        {
-            List<Classroom> classrooms = GetClassrooms();
-            if (classrooms.Count > 0)
-            {
-                return classrooms.Single(s => s.Name == name);
-            }
-            else
-            {
-                return null;
-            }
         }
     } 
 }

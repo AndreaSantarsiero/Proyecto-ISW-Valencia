@@ -15,8 +15,8 @@ namespace GestAca.GUI
     {
         private bool _DBChanged = false;
         private IGestAcaService _service;
-        private string _eSelectedFunction;
-        private string _aSelectedFunction;
+        private Function _eSelectedFunction;
+        private Function _aSelectedFunction;
 
 
         public Principal()
@@ -28,7 +28,7 @@ namespace GestAca.GUI
 
         private void botonBasesDeDatos_Click(object sender, EventArgs e)
         {
-            if (_DBChanged && Utils.Confirmacion("La base de datos fue cambiada, ¿quieres reiniciarla?",
+            if (_DBChanged && Utils.Confirmacion("La base de datos fue modificada, ¿quiere reiniciarla?",
                                                  "Reinicio base de datos"))
             {
                 _service.DBInitialization();
@@ -42,7 +42,7 @@ namespace GestAca.GUI
         private void botonAsignarAulaACurso_Click(object sender, EventArgs e)
         {
             ResetAdminGUI();
-            _aSelectedFunction = "AsignarAulaACurso";
+            _aSelectedFunction = Function.AsignarAulaACurso;
             Utils.ShowThroughtComboBox(comboBoxA1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelA1, "Asignar aula a un curso a impartir");
         }
@@ -50,7 +50,7 @@ namespace GestAca.GUI
         private void botonAsignarProfesorACurso_Click(object sender, EventArgs e)
         {
             ResetAdminGUI();
-            _aSelectedFunction = "AsignarProfesorACurso";
+            _aSelectedFunction = Function.AsignarProfesorACurso;
             Utils.ShowThroughtComboBox(comboBoxA1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelA1, "Asignar profesor a un curso a impartir");
         }
@@ -58,7 +58,7 @@ namespace GestAca.GUI
         private void botonInscribirAlumnoEnCurso_Click(object sender, EventArgs e)
         {
             ResetEmpleadoGUI();
-            _eSelectedFunction = "InscribirAlumnoEnCurso";
+            _eSelectedFunction = Function.InscribirAlumnoEnCurso;
             Utils.ShowThroughtComboBox(comboBoxE1, Utils.ElementToNameList(_service.GetTaughtCoursesNotStarted().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelE1, "Inscribir alumno en un curso a impartir");
         }
@@ -66,7 +66,7 @@ namespace GestAca.GUI
         private void botonMostrarAlumnosDeUnCurso_Click(object sender, EventArgs e)
         {
             ResetEmpleadoGUI();
-            _eSelectedFunction = "MostrarAlumnosDeUnCurso";
+            _eSelectedFunction = Function.MostrarAlumosDeUnCurso;
             Utils.ShowThroughtComboBox(comboBoxE1, Utils.ElementToNameList(_service.GetTaughtCourses().Cast<IGestAcaEntity>().ToList(), Utils.TabZero),
                                        labelE1, "Mostrar alumnos de un curso a impartir");
         }
@@ -76,17 +76,17 @@ namespace GestAca.GUI
         {
             if (Utils.CorrectSelections(comboBoxE1))
             {
-                if (_eSelectedFunction == "MostrarAlumnosDeUnCurso")
+                if (_eSelectedFunction == Function.MostrarAlumosDeUnCurso)
                 {
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxE1.SelectedItem.ToString());
                     List<Student> studentsEnrolled = _service.GetStudentsEnrolledInACourse(taughtCourseChosen);
                     Utils.ShowThroughtTextBox(textBoxE1, Utils.PrintTaughtCourseInfo(taughtCourseChosen),
                                               labelE2, "Informaciones sobre el curso a impartir seleccionado");
                     Utils.ShowThroughtdataGridView(dataGridViewE1, studentsEnrolled, taughtCourseChosen,
-                                              labelE3, "Enstudiantes del curso " + comboBoxE1.SelectedItem.ToString() + ":");
+                                              labelE3, "Estudiantes del curso " + comboBoxE1.SelectedItem.ToString() + ":");
                 }
 
-                else if (_eSelectedFunction == "InscribirAlumnoEnCurso")
+                else if (_eSelectedFunction == Function.InscribirAlumnoEnCurso)
                 {
                     TextBoxE3InfoNotVisible();
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxE1.SelectedItem.ToString());
@@ -121,16 +121,16 @@ namespace GestAca.GUI
                                               labelE4, "Informaciones sobre el estudiante seleccionado");
                     buttonE1.Enabled = true;
                 }
-                catch (Exception dniNoEncontradoEnElDB)
+                catch (Exception)
                 {
                     buttonE1.Enabled = false;
                     textBoxE2.Text = "";
-                    Utils.Message("ERRORE: el dni inserito no se encontrò en el database", "dni estudiante non valido");
+                    Utils.Message("ERROR: El dni escrito no se encontró en la base de datos", "dni estudiante no valido");
                 }
             }
             else
             {
-                Utils.Message("ERRORE: selecciona un curso valido", "scelta curso non valida");
+                Utils.Message("ERROR: Selecciona un curso valido", "Seleccion del curso no valida");
             }
         }
 
@@ -138,7 +138,7 @@ namespace GestAca.GUI
         {
             if (Utils.CorrectSelections(comboBoxE1))
             {
-                if (_eSelectedFunction == "InscribirAlumnoEnCurso")
+                if (_eSelectedFunction == Function.InscribirAlumnoEnCurso)
                 {
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxE1.SelectedItem.ToString());
                     Student studentChosen = _service.GetStudentFromDni(textBoxE3.Text);
@@ -169,7 +169,7 @@ namespace GestAca.GUI
                 buttonA1.Enabled = false;
                 buttonA1.Visible = true;
 
-                if (_aSelectedFunction == "AsignarAulaACurso")
+                if (_aSelectedFunction == Function.AsignarAulaACurso)
                 {
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxA1.SelectedItem.ToString());
                     if (taughtCourseChosen.Classroom != null)
@@ -182,7 +182,7 @@ namespace GestAca.GUI
                                                labelA3, "Selecciona aula que quieres asignar:");
                 }
 
-                else if (_aSelectedFunction == "AsignarProfesorACurso")
+                else if (_aSelectedFunction == Function.AsignarProfesorACurso)
                 {
                     TaughtCourse taughtCourseChosen = _service.GetTaughtCourseFromName(comboBoxA1.SelectedItem.ToString());
                     Utils.ShowThroughtTextBox(textBoxA1, Utils.PrintTaughtCourseInfo(taughtCourseChosen),
@@ -202,7 +202,7 @@ namespace GestAca.GUI
         {
             if (Utils.CorrectSelections(comboBoxA1, comboBoxA2))
             {
-                if (_aSelectedFunction == "AsignarAulaACurso")
+                if (_aSelectedFunction == Function.AsignarAulaACurso)
                 {
                     if (Utils.Confirmacion("¿Quieres realizar los cambios? No es una operación reversible", "Confirmación de cambios"))
                     {
@@ -214,7 +214,7 @@ namespace GestAca.GUI
                         ResetGUI();
                     }
                 }
-                else if (_aSelectedFunction == "AsignarProfesorACurso")
+                else if (_aSelectedFunction == Function.AsignarProfesorACurso)
                 {
 
                     if (Utils.Confirmacion("¿Quieres realizar los cambios? No es una operación reversible", "Confirmación de cambios"))
@@ -236,13 +236,13 @@ namespace GestAca.GUI
             {
                 buttonA1.Enabled = true;
 
-                if (_aSelectedFunction == "AsignarAulaACurso")
+                if (_aSelectedFunction == Function.AsignarAulaACurso)
                 {
                     Classroom classroomChosen = _service.GetClassroomFromName(comboBoxA2.SelectedItem.ToString());
                     Utils.ShowThroughtTextBox(textBoxA2, classroomChosen.ToString(),
                                               labelA4, "Informaciones sobre aula seleccionada");
                 }
-                else if (_aSelectedFunction == "AsignarProfesorACurso")
+                else if (_aSelectedFunction == Function.AsignarProfesorACurso)
                 {
                     Teacher teacherChosen = _service.GetTeacherFromName(comboBoxA2.SelectedItem.ToString());
                     Utils.ShowThroughtTextBox(textBoxA2, teacherChosen.ToString(),
