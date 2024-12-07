@@ -288,5 +288,10 @@ namespace GestAca.Services
         {
             return student.IsAlreadyEnrolledToTaughtCourse(taughtCourse);
         }
+
+        public bool ClassroomFull(TaughtCourse taughtCourse)
+        {
+            return taughtCourse.ClassroomFull();
+        }
     } 
 }

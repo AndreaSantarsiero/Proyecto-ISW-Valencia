@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Reflection.Emit;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace GestAca.GUI
 {
@@ -128,6 +130,22 @@ namespace GestAca.GUI
             return taughtCourse.ToString() +
                    "\r\n" + PrintTeachersName(taughtCourse) +
                    "\r\nAula asignada: " + PrintClassroomName(taughtCourse);
+        }
+
+
+        public static bool CheckNewStudentData(System.Windows.Forms.TextBox textBoxName,
+                                               System.Windows.Forms.TextBox textBoxDni,
+                                               System.Windows.Forms.TextBox textBoxDireccion,
+                                               System.Windows.Forms.TextBox textBoxCP,
+                                               System.Windows.Forms.TextBox textBoxIBAN)
+        {
+            string IBANWithoutSpaces = textBoxIBAN.Text.Replace(" ", "");
+
+            return !string.IsNullOrEmpty(textBoxName.Text) && Regex.IsMatch(textBoxName.Text, @"^[A-Za-zÀ-ÿ\s.'-]+$") &&
+                   textBoxDni.Text.Length == 9 && Regex.IsMatch(textBoxDni.Text, @"^\d{8}[A-Za-z]$") &&
+                   !string.IsNullOrEmpty(textBoxDireccion.Text) && Regex.IsMatch(textBoxDireccion.Text, @"^[A-Za-z0-9\s,.'-]+$") &&
+                   Regex.IsMatch(textBoxCP.Text, @"^\d{5}$") &&
+                   !string.IsNullOrEmpty(IBANWithoutSpaces) && Regex.IsMatch(IBANWithoutSpaces, @"^[A-Z0-9]{15,34}$");
         }
     }
 }

@@ -48,6 +48,18 @@ namespace GestAca.Entities
             return this.Course.GetName(); 
         }
 
+        public bool ClassroomFull()
+        {
+            if (this.Classroom != null && this.Classroom.MaxCapacity <= this.Enrollments.Count)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public override string ToString()
         {
             return "Nombre curso: " + this.Course.Name +

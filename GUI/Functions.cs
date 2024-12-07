@@ -11,6 +11,7 @@ namespace GestAca.GUI
         AsignarAulaACurso,
         AsignarProfesorACurso,
         InscribirAlumnoEnCurso,
+        RegistrarAlumno,
         MostrarAlumosDeUnCurso
     }
 }

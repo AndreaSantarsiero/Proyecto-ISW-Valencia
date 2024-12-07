@@ -35,6 +35,17 @@ namespace GestAca.GUI
             this.tabControlUsuario = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panelEmpleado = new System.Windows.Forms.Panel();
+            this.labelE10 = new System.Windows.Forms.Label();
+            this.textBoxE8 = new System.Windows.Forms.TextBox();
+            this.labelE9 = new System.Windows.Forms.Label();
+            this.textBoxE7 = new System.Windows.Forms.TextBox();
+            this.labelE8 = new System.Windows.Forms.Label();
+            this.textBoxE6 = new System.Windows.Forms.TextBox();
+            this.labelE6 = new System.Windows.Forms.Label();
+            this.textBoxE4 = new System.Windows.Forms.TextBox();
+            this.labelE7 = new System.Windows.Forms.Label();
+            this.textBoxE5 = new System.Windows.Forms.TextBox();
+            this.labelE5 = new System.Windows.Forms.Label();
             this.buttonE2 = new System.Windows.Forms.Button();
             this.dataGridViewE1 = new System.Windows.Forms.DataGridView();
             this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -121,6 +132,17 @@ namespace GestAca.GUI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelEmpleado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelEmpleado.Controls.Add(this.labelE10);
+            this.panelEmpleado.Controls.Add(this.textBoxE8);
+            this.panelEmpleado.Controls.Add(this.labelE9);
+            this.panelEmpleado.Controls.Add(this.textBoxE7);
+            this.panelEmpleado.Controls.Add(this.labelE8);
+            this.panelEmpleado.Controls.Add(this.textBoxE6);
+            this.panelEmpleado.Controls.Add(this.labelE6);
+            this.panelEmpleado.Controls.Add(this.textBoxE4);
+            this.panelEmpleado.Controls.Add(this.labelE7);
+            this.panelEmpleado.Controls.Add(this.textBoxE5);
+            this.panelEmpleado.Controls.Add(this.labelE5);
             this.panelEmpleado.Controls.Add(this.buttonE2);
             this.panelEmpleado.Controls.Add(this.dataGridViewE1);
             this.panelEmpleado.Controls.Add(this.textBoxE3);
@@ -136,6 +158,110 @@ namespace GestAca.GUI
             this.panelEmpleado.Name = "panelEmpleado";
             this.panelEmpleado.Size = new System.Drawing.Size(849, 566);
             this.panelEmpleado.TabIndex = 8;
+            // 
+            // labelE10
+            // 
+            this.labelE10.AutoSize = true;
+            this.labelE10.Location = new System.Drawing.Point(21, 385);
+            this.labelE10.Name = "labelE10";
+            this.labelE10.Size = new System.Drawing.Size(38, 16);
+            this.labelE10.TabIndex = 30;
+            this.labelE10.Text = "IBAN";
+            this.labelE10.Visible = false;
+            // 
+            // textBoxE8
+            // 
+            this.textBoxE8.Location = new System.Drawing.Point(65, 379);
+            this.textBoxE8.Name = "textBoxE8";
+            this.textBoxE8.Size = new System.Drawing.Size(252, 22);
+            this.textBoxE8.TabIndex = 29;
+            this.textBoxE8.Visible = false;
+            // 
+            // labelE9
+            // 
+            this.labelE9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelE9.AutoSize = true;
+            this.labelE9.Location = new System.Drawing.Point(638, 354);
+            this.labelE9.Name = "labelE9";
+            this.labelE9.Size = new System.Drawing.Size(89, 16);
+            this.labelE9.TabIndex = 28;
+            this.labelE9.Text = "código postal";
+            this.labelE9.Visible = false;
+            // 
+            // textBoxE7
+            // 
+            this.textBoxE7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxE7.Location = new System.Drawing.Point(733, 348);
+            this.textBoxE7.Name = "textBoxE7";
+            this.textBoxE7.Size = new System.Drawing.Size(92, 22);
+            this.textBoxE7.TabIndex = 27;
+            this.textBoxE7.Visible = false;
+            // 
+            // labelE8
+            // 
+            this.labelE8.AutoSize = true;
+            this.labelE8.Location = new System.Drawing.Point(21, 354);
+            this.labelE8.Name = "labelE8";
+            this.labelE8.Size = new System.Drawing.Size(62, 16);
+            this.labelE8.TabIndex = 26;
+            this.labelE8.Text = "dirección";
+            this.labelE8.Visible = false;
+            // 
+            // textBoxE6
+            // 
+            this.textBoxE6.Location = new System.Drawing.Point(89, 351);
+            this.textBoxE6.Name = "textBoxE6";
+            this.textBoxE6.Size = new System.Drawing.Size(518, 22);
+            this.textBoxE6.TabIndex = 25;
+            this.textBoxE6.Visible = false;
+            // 
+            // labelE6
+            // 
+            this.labelE6.AutoSize = true;
+            this.labelE6.Location = new System.Drawing.Point(21, 323);
+            this.labelE6.Name = "labelE6";
+            this.labelE6.Size = new System.Drawing.Size(53, 16);
+            this.labelE6.TabIndex = 24;
+            this.labelE6.Text = "nombre";
+            this.labelE6.Visible = false;
+            // 
+            // textBoxE4
+            // 
+            this.textBoxE4.Location = new System.Drawing.Point(80, 320);
+            this.textBoxE4.Name = "textBoxE4";
+            this.textBoxE4.Size = new System.Drawing.Size(348, 22);
+            this.textBoxE4.TabIndex = 23;
+            this.textBoxE4.Visible = false;
+            // 
+            // labelE7
+            // 
+            this.labelE7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelE7.AutoSize = true;
+            this.labelE7.Location = new System.Drawing.Point(652, 326);
+            this.labelE7.Name = "labelE7";
+            this.labelE7.Size = new System.Drawing.Size(25, 16);
+            this.labelE7.TabIndex = 22;
+            this.labelE7.Text = "dni";
+            this.labelE7.Visible = false;
+            // 
+            // textBoxE5
+            // 
+            this.textBoxE5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxE5.Location = new System.Drawing.Point(683, 323);
+            this.textBoxE5.Name = "textBoxE5";
+            this.textBoxE5.Size = new System.Drawing.Size(142, 22);
+            this.textBoxE5.TabIndex = 21;
+            this.textBoxE5.Visible = false;
+            // 
+            // labelE5
+            // 
+            this.labelE5.AutoSize = true;
+            this.labelE5.Location = new System.Drawing.Point(21, 294);
+            this.labelE5.Name = "labelE5";
+            this.labelE5.Size = new System.Drawing.Size(152, 16);
+            this.labelE5.TabIndex = 20;
+            this.labelE5.Text = "registracciòn estudiante:";
+            this.labelE5.Visible = false;
             // 
             // buttonE2
             // 
@@ -565,6 +691,50 @@ namespace GestAca.GUI
             this.textBoxE2.Visible = false;
         }
 
+        private void EnableStudentRegistration()
+        {
+            this.labelE5.Visible = true;
+            this.labelE6.Visible = true;
+            this.labelE7.Visible = true;
+            this.labelE8.Visible = true;
+            this.labelE9.Visible = true;
+            this.labelE10.Visible = true;
+            this.textBoxE4.Text = "";
+            this.textBoxE4.Visible = true;
+            this.textBoxE5.Text = "";
+            this.textBoxE5.Visible = true;
+            this.textBoxE6.Text = "";
+            this.textBoxE6.Visible = true;
+            this.textBoxE7.Text = "";
+            this.textBoxE7.Visible = true;
+            this.textBoxE8.Text = "";
+            this.textBoxE8.Visible = true;
+            this.buttonE1.Text = "Registrar";
+            this.buttonE1.Enabled = true;
+        }
+
+        private void DisableStudentRegistration()
+        {
+            this.labelE5.Visible = false;
+            this.labelE6.Visible = false;
+            this.labelE7.Visible = false;
+            this.labelE8.Visible = false;
+            this.labelE9.Visible = false;
+            this.labelE10.Visible = false;
+            this.textBoxE4.Text = "";
+            this.textBoxE4.Visible = false;
+            this.textBoxE5.Text = "";
+            this.textBoxE5.Visible = false;
+            this.textBoxE6.Text = "";
+            this.textBoxE6.Visible = false;
+            this.textBoxE7.Text = "";
+            this.textBoxE7.Visible = false;
+            this.textBoxE8.Text = "";
+            this.textBoxE8.Visible = false;
+            this.buttonE1.Text = "Inscribir";
+            this.buttonE1.Enabled = false;
+        }
+
         private void ComboBoxE1ToDefaultResetGUI()
         {
             this.dataGridViewE1.Rows.Clear();
@@ -584,6 +754,7 @@ namespace GestAca.GUI
             ComboBoxE1InfoNotVisible();
             TextBoxE3InfoNotVisible();
             ComboBoxE1ToDefaultResetGUI();
+            DisableStudentRegistration();
         }
 
         private void ComboBoxA1InfoNotVisible()
@@ -631,6 +802,17 @@ namespace GestAca.GUI
         private DataGridViewTextBoxColumn nombre;
         private DataGridViewTextBoxColumn pagamento;
         private Button buttonE2;
+        private TextBox textBoxE5;
+        private Label labelE5;
+        private Label labelE7;
+        private Label labelE8;
+        private TextBox textBoxE6;
+        private Label labelE6;
+        private TextBox textBoxE4;
+        private Label labelE9;
+        private TextBox textBoxE7;
+        private Label labelE10;
+        private TextBox textBoxE8;
     }
 }
 
