@@ -35,6 +35,7 @@ namespace GestAca.GUI
             this.tabControlUsuario = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panelEmpleado = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.labelE10 = new System.Windows.Forms.Label();
             this.textBoxE8 = new System.Windows.Forms.TextBox();
             this.labelE9 = new System.Windows.Forms.Label();
@@ -132,6 +133,7 @@ namespace GestAca.GUI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelEmpleado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelEmpleado.Controls.Add(this.checkBox1);
             this.panelEmpleado.Controls.Add(this.labelE10);
             this.panelEmpleado.Controls.Add(this.textBoxE8);
             this.panelEmpleado.Controls.Add(this.labelE9);
@@ -158,6 +160,17 @@ namespace GestAca.GUI
             this.panelEmpleado.Name = "panelEmpleado";
             this.panelEmpleado.Size = new System.Drawing.Size(849, 566);
             this.panelEmpleado.TabIndex = 8;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(24, 231);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(97, 20);
+            this.checkBox1.TabIndex = 31;
+            this.checkBox1.Text = "Pago único";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Visible = false;
             // 
             // labelE10
             // 
@@ -751,6 +764,9 @@ namespace GestAca.GUI
         private void ResetEmpleadoGUI()
         {
             this.comboBoxE1.SelectedIndex = -1;
+            this.checkBox1.Checked = false;
+            this.checkBox1.Visible = false;
+            this.checkBox1.Enabled = false;
             ComboBoxE1InfoNotVisible();
             TextBoxE3InfoNotVisible();
             ComboBoxE1ToDefaultResetGUI();
@@ -813,6 +829,7 @@ namespace GestAca.GUI
         private TextBox textBoxE7;
         private Label labelE10;
         private TextBox textBoxE8;
+        private CheckBox checkBox1;
     }
 }
 

@@ -39,7 +39,7 @@ namespace GestAca.Services
 
         void AssingTeacherToCourse(Teacher teacher, TaughtCourse taughtCourse);
         void AssingClassroomToCourse(TaughtCourse taughtCourse, Classroom classroom);
-        void AddStudentToCourse(TaughtCourse taughtCourseChosen, Student student);
+        void AddStudentToCourse(TaughtCourse taughtCourseChosen, Student student, bool uniquePayment);
         List<Student> GetStudentsEnrolledInACourse(TaughtCourse taughtCourse);
         TaughtCourse GetTaughtCourseFromName(string name);
         Student GetStudentFromDni(string dni);

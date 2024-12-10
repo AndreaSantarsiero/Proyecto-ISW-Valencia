@@ -237,9 +237,9 @@ namespace GestAca.Services
             Commit();
         }
 
-        public void AddStudentToCourse(TaughtCourse taughtCourseChosen, Student student)
+        public void AddStudentToCourse(TaughtCourse taughtCourseChosen, Student student, bool uniquePayment)
         {
-            Enrollment enrollment = new Enrollment(DateTime.Now, false, student, taughtCourseChosen);
+            Enrollment enrollment = new Enrollment(DateTime.Now, uniquePayment, student, taughtCourseChosen);
             student.AddEnrollment(enrollment);
             taughtCourseChosen.AddEnrollment(enrollment);
             Commit();

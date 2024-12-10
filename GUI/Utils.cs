@@ -143,7 +143,7 @@ namespace GestAca.GUI
 
             return !string.IsNullOrEmpty(textBoxName.Text) && Regex.IsMatch(textBoxName.Text, @"^[A-Za-zÀ-ÿ\s.'-]+$") &&
                    textBoxDni.Text.Length == 9 && Regex.IsMatch(textBoxDni.Text, @"^\d{8}[A-Za-z]$") &&
-                   !string.IsNullOrEmpty(textBoxDireccion.Text) && Regex.IsMatch(textBoxDireccion.Text, @"^[A-Za-z0-9\s,.'-]+$") &&
+                   !string.IsNullOrEmpty(textBoxDireccion.Text) && Regex.IsMatch(textBoxDireccion.Text, @"^[A-Za-z0-9\s,.'/-]+$") &&
                    Regex.IsMatch(textBoxCP.Text, @"^\d{5}$") &&
                    !string.IsNullOrEmpty(IBANWithoutSpaces) && Regex.IsMatch(IBANWithoutSpaces, @"^[A-Z0-9]{15,34}$");
         }

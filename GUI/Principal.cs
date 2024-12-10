@@ -95,12 +95,14 @@ namespace GestAca.GUI
                     Utils.ShowThroughtTextBox(textBoxE1, Utils.PrintTaughtCourseInfo(taughtCourseChosen),
                                               labelE2, "Informaciones sobre el curso a impartir seleccionado");
 
-                    labelE3.Text = "dni estudiante que quieres inscribir:";
+                    labelE3.Text = "DNI del estudiante que quieres inscribir:";
                     labelE3.Visible = true;
                     textBoxE3.Visible = true;
                     buttonE2.Visible = true;
                     buttonE1.Enabled = false;
                     buttonE1.Visible = true;
+                    checkBox1.Enabled = true;
+                    checkBox1.Visible = true;
                 }
             }
 
@@ -167,7 +169,7 @@ namespace GestAca.GUI
                     {
                         if (Utils.Confirmacion("¿Quieres realizar los cambios? No es una operación reversible", "Confirmación de cambios"))
                         {
-                            _service.AddStudentToCourse(taughtCourseChosen, studentChosen);
+                            _service.AddStudentToCourse(taughtCourseChosen, studentChosen, checkBox1.Checked);
                             _DBChanged = true;
                             botonResetDB.Enabled = true;
                             ResetGUI();
