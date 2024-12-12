@@ -22,6 +22,11 @@ namespace GestAca.Entities
             TaughtCourses = new List<TaughtCourse>();
         }
 
+        public void AddTaughtCourse(TaughtCourse taughtCourse)
+        {
+            this.TaughtCourses.Add(taughtCourse);
+        }
+
         //metodo para verificar si el profesor puede impartir un nuevo curso
         public bool IsAvailableForNewTaughtCouse(TaughtCourse taughtCourse)
         {

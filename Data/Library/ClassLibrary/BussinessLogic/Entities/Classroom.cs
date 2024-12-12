@@ -21,33 +21,45 @@ namespace GestAca.Entities
             TaughtCourses = new List<TaughtCourse>();
         }
 
+        public void AddTaughtCourse(TaughtCourse taughtCourse)
+        {
+            this.TaughtCourses.Add(taughtCourse);
+        }
+
         //metodo para verificar si el aula se puede asignar a un nuevo curso
         public bool IsAvailableForNewTaughtCouse(TaughtCourse taughtCourse)
         {
-            foreach (var taughtCourseAlreadyAssigned in this.TaughtCourses)
+            if(this.MaxCapacity >= taughtCourse.GetNumberOfStudentsEnrolled())
             {
-                //mismo dia de la semana (lunes, martes ecc..) y el curso nuevo empleza antes que el curso viejo termina
-                if (taughtCourseAlreadyAssigned.TeachingDay == taughtCourse.TeachingDay &&
-                    taughtCourseAlreadyAssigned.EndDate >= taughtCourse.StartDateTime.Date)
+                foreach (var taughtCourseAlreadyAssigned in this.TaughtCourses)
                 {
-                    //overlaps1: new taughtCourse starts during the old one
-                    if (taughtCourse.StartDateTime.TimeOfDay >= taughtCourseAlreadyAssigned.StartDateTime.TimeOfDay &&
-                    taughtCourse.StartDateTime.TimeOfDay < taughtCourseAlreadyAssigned.StartDateTime.AddMinutes(taughtCourseAlreadyAssigned.SessionDuration).TimeOfDay)
+                    //mismo dia de la semana (lunes, martes ecc..) y el curso nuevo empleza antes que el curso viejo termina
+                    if (taughtCourseAlreadyAssigned.TeachingDay == taughtCourse.TeachingDay &&
+                        taughtCourseAlreadyAssigned.EndDate >= taughtCourse.StartDateTime.Date)
                     {
-                        return false;
-                    }
+                        //overlaps1: new taughtCourse starts during the old one
+                        if (taughtCourse.StartDateTime.TimeOfDay >= taughtCourseAlreadyAssigned.StartDateTime.TimeOfDay &&
+                        taughtCourse.StartDateTime.TimeOfDay < taughtCourseAlreadyAssigned.StartDateTime.AddMinutes(taughtCourseAlreadyAssigned.SessionDuration).TimeOfDay)
+                        {
+                            return false;
+                        }
 
-                    //overlaps2: old taughtCourse starts during the new one
-                    else if (taughtCourseAlreadyAssigned.StartDateTime.TimeOfDay >= taughtCourse.StartDateTime.TimeOfDay &&      
-                    taughtCourseAlreadyAssigned.StartDateTime.TimeOfDay > taughtCourse.StartDateTime.AddMinutes(taughtCourse.SessionDuration).TimeOfDay)
-                    {
-                        return false;
+                        //overlaps2: old taughtCourse starts during the new one
+                        else if (taughtCourseAlreadyAssigned.StartDateTime.TimeOfDay >= taughtCourse.StartDateTime.TimeOfDay &&
+                        taughtCourseAlreadyAssigned.StartDateTime.TimeOfDay > taughtCourse.StartDateTime.AddMinutes(taughtCourse.SessionDuration).TimeOfDay)
+                        {
+                            return false;
+                        }
                     }
                 }
-            }
 
-            //if we don't find overlaps with any of the taughtCourses that are already assigned to that class, then the class is available
-            return true;
+                //if we don't find overlaps with any of the taughtCourses that are already assigned to that class, then the class is available
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public string GetName()
         {

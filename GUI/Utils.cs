@@ -65,6 +65,8 @@ namespace GestAca.GUI
         public static void ShowThroughtdataGridView(System.Windows.Forms.DataGridView dataGridView, List<Student> students,
                                                     TaughtCourse taughtCourse, System.Windows.Forms.Label label, string description)
         {
+            dataGridView.Rows.Clear();
+
             foreach (var student in students) { 
                 foreach (var enrollment in student.Enrollments)
                 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using GestAca.Entities;
 using GestAca.Persistence;
 
@@ -162,7 +161,6 @@ namespace GestAca.Services
         // A partir de aquí vuestros métodos
         //
 
-        //TODO: Aquí se comprimirá código
 
         public List<TaughtCourse> GetTaughtCourses() {
             return dal.GetAll<TaughtCourse>().ToList<TaughtCourse>();
@@ -200,7 +198,7 @@ namespace GestAca.Services
             List<Classroom> classroomsAvailables = new List<Classroom>();
             foreach (var classroom in GetClassrooms())
             {                
-                if (classroom.MaxCapacity >= taughtCourse.Enrollments.Count && classroom.IsAvailableForNewTaughtCouse(taughtCourse)) //en el if falta la condicion: No se puede impartir un curso en un aula si en el lapso de tiempo que dura está ya ocupada
+                if (classroom.IsAvailableForNewTaughtCouse(taughtCourse))
                 {
                     classroomsAvailables.Add(classroom);
                 }
@@ -225,14 +223,14 @@ namespace GestAca.Services
 
         public void AssingTeacherToCourse(Teacher teacher, TaughtCourse taughtCourse)
         {
-            teacher.TaughtCourses.Add(taughtCourse);
+            teacher.AddTaughtCourse(taughtCourse);
             taughtCourse.AddTeacher(teacher);
             Commit();
         }
 
         public void AssingClassroomToCourse(TaughtCourse taughtCourse, Classroom classroom)
         {
-            classroom.TaughtCourses.Add(taughtCourse);
+            classroom.AddTaughtCourse(taughtCourse);
             taughtCourse.SetClassroom(classroom);
             Commit();
         }
@@ -250,12 +248,9 @@ namespace GestAca.Services
             List<Student> students = new List<Student>();
             foreach (var student in GetStudents())
             {
-                foreach (var enrollment in student.Enrollments)
+                if (student.IsAlreadyEnrolledToTaughtCourse(taughtCourse))
                 {
-                    if (enrollment.TaughtCourse == taughtCourse)
-                    {
-                        students.Add(student);
-                    }
+                    students.Add(student);
                 }
             }
             return students;
@@ -264,34 +259,57 @@ namespace GestAca.Services
         public TaughtCourse GetTaughtCourseFromName(string name)
         {
             List<TaughtCourse> taughtCourses = GetTaughtCourses();
-            return taughtCourses.Count > 0 ? taughtCourses.Single(s => s.Course.Name == name) : null;
+            try
+            {
+                return taughtCourses.Single(s => s.Course.Name == name);
+            }
+            catch (Exception)
+            {
+                throw new ServiceException("No se ha encontrado un curso con el nombre " + name);
+            }
         }
 
         public Student GetStudentFromDni (string dni)
         {
             List<Student> students = GetStudents();
-            return students.Count > 0 ? students.Single(s => s.Id == dni) : null;
+            try
+            {
+                return students.Single(s => s.Id == dni);
+            }
+            catch (Exception) {
+                throw new ServiceException("El estudiante con DNI " + dni + " no existe");
+            }
         }
 
         public Teacher GetTeacherFromName(string name)
         {
             List<Teacher> teachers = GetTeachers();
-            return teachers.Count > 0 ? teachers.Single(s => s.Name == name) : null;
+            try
+            {
+                return teachers.Single(s => s.Name == name);
+            }
+            catch (Exception)
+            {
+                throw new ServiceException("El profesor con nombre " + name + " no existe");
+            }
         }
+
         public Classroom GetClassroomFromName(string name)
         {
             List<Classroom> classrooms = GetClassrooms();
-            return classrooms.Count > 0 ? classrooms.Single(s => s.Name == name) : null;
+            try
+            {
+                return classrooms.Single(s => s.Name == name);
+            }
+            catch (Exception)
+            {
+                throw new ServiceException("El aula con nombre " + name + " no existe");
+            };
         }
 
         public bool IsAlreadyEnrolled(Student student, TaughtCourse taughtCourse)
         {
             return student.IsAlreadyEnrolledToTaughtCourse(taughtCourse);
-        }
-
-        public bool ClassroomFull(TaughtCourse taughtCourse)
-        {
-            return taughtCourse.ClassroomFull();
         }
     } 
 }

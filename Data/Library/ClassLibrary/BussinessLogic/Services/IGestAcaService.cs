@@ -46,6 +46,5 @@ namespace GestAca.Services
         Teacher GetTeacherFromName(string name);
         Classroom GetClassroomFromName(string name);
         bool IsAlreadyEnrolled(Student student, TaughtCourse taughtCourse);
-        bool ClassroomFull(TaughtCourse taughtCourse);
     }
 }

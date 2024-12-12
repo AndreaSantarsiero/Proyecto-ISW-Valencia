@@ -90,7 +90,6 @@ namespace GestAca.GUI
             // botonResetDB
             // 
             this.botonResetDB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.botonResetDB.Enabled = false;
             this.botonResetDB.Location = new System.Drawing.Point(915, 15);
             this.botonResetDB.Margin = new System.Windows.Forms.Padding(4);
             this.botonResetDB.Name = "botonResetDB";
@@ -164,7 +163,7 @@ namespace GestAca.GUI
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(24, 231);
+            this.checkBox1.Location = new System.Drawing.Point(24, 242);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(97, 20);
             this.checkBox1.TabIndex = 31;
@@ -695,6 +694,7 @@ namespace GestAca.GUI
             this.labelE3.Visible = false;
             this.labelE3.Text = "";
             this.dataGridViewE1.Visible = false;
+            this.dataGridViewE1.Rows.Clear();
         }
 
         private void TextBoxE3InfoNotVisible()
